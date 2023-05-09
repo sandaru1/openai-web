@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Simple OpenAI query</title>
+</head>
+<body>
+    <div class="grid h-screen place-items-center">
+        <div class="w-1/3">
+            <form id="form" class="mb-6">
+                <div class="mb-6">
+                    <label for="key" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">OpenAI API Key</label>
+                    <input type="password" id="key"
+                        class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                        required>
+                    <p id="helper-text-explanation" class="mt-2 text-sm text-gray-500 dark:text-gray-400">Never embed your own API
+                        key. Ask the user to provide their keys.
+                        You can get the API keys through <a href="https://platform.openai.com/account/api-keys"
+                            class="font-medium text-blue-600 hover:underline dark:text-blue-500">OpenAI account settings</a>.</p>
+                </div>
+                <div class="mb-6">
+                    <label for="query" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Query</label>
+                    <input type="text" id="query"
+                        class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                        value="Say this is a test." required>
+                </div>
+            
+                <button type="submit"
+                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    Query ChatGPT
+                </button>
+            </form>
+            <div id="answer" class="bg-gray-200 p-3 hidden">
+                Loading
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.slim.min.js"
+        integrity="sha256-a2yjHM4jnF9f54xUQakjZGaqYs/V1CYvWpoqZzC2/Bw=" crossorigin="anonymous"></script>
+    <script src="../dist/openai.min.js"></script>
+    <script type="module">
+        $(document).ready(function() {
+            $("#form").submit(function(e) {
+                e.preventDefault();
+                const configuration = new OpenAI.Configuration({
+                    apiKey: $("#key").val(),
+                });                
+                const openai = new OpenAI.OpenAIApi(configuration);
+                try {
+                    $("#answer").text("Loading...");
+                    $("#answer").removeClass("hidden");
+                    const response = openai.createCompletion({
+                        model: "text-davinci-003",
+                        prompt: $("#query").val(),
+                        temperature: 0,
+                        max_tokens: 7,
+                    }).then((res) => {
+                        $("#answer").text(res.data.choices[0].text);
+                    },(error) => {
+                        const message = error.response.data.error.message ?? (error.message ?? "An error occured");
+                        $("#answer").text(message);
+                    });
+                } catch (e) {
+                    console.log(e.response);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
