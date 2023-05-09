@@ -1,10 +1,10 @@
 {
-  "name": "openai",
+  "name": "openai-web",
   "version": "3.2.1",
-  "description": "Node.js library for the OpenAI API",
+  "description": "Browser compatible OpenAI API javascript library",
   "repository": {
     "type": "git",
-    "url": "git@github.com:openai/openai-node.git"
+    "url": "git@github.com:sandaru1/openai-web.git"
   },
   "keywords": [
     "openai",
@@ -18,7 +18,7 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "tsc --outDir dist/"
+    "build": "npx webpack --mode production"
   },
   "dependencies": {
     "axios": "^0.26.0",
@@ -26,6 +26,9 @@
   },
   "devDependencies": {
     "@types/node": "^12.11.5",
-    "typescript": "^3.6.4"
+    "ts-loader": "^9.4.2",
+    "typescript": "^3.6.4",
+    "webpack": "^5.82.0",
+    "webpack-cli": "^5.1.1"
   }
 }
