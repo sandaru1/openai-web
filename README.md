@@ -40,4 +40,4 @@ The library needs to be configured with an OpenAI account's secret key, which is
 </script>
 ```
 
-This API is a fork of the official OpenAI Node.js library. Check out the [full API documentation](https://platform.openai.com/docs/api-reference?lang=node.js) for examples of all the available functions.
+This library is a fork of the official OpenAI Node.js library. Check out the [full API documentation](https://platform.openai.com/docs/api-reference?lang=node.js) for examples of all the available functions.
