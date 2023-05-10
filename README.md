@@ -19,25 +19,25 @@ npm install openai-web
 The library needs to be configured with an OpenAI account's secret key, which is available on the [website](https://platform.openai.com/account/api-keys). You should request the users to provide the API key.
 
 ```html
-    <script src="openai.min.js"></script>
-    <script type="module">
-        const configuration = new OpenAI.Configuration({
-            apiKey: $("#key").val(),  // Read the API key from user input
-        });
-        const openai = new OpenAI.OpenAIApi(configuration);
+<script src="openai.min.js"></script>
+<script type="module">
+    const configuration = new OpenAI.Configuration({
+        apiKey: $("#key").val(),  // Read the API key from user input
+    });
+    const openai = new OpenAI.OpenAIApi(configuration);
 
-        const response = openai.createCompletion({
-            model: "text-davinci-003",
-            prompt: "Say Hello World in javascript",
-            temperature: 0,
-            max_tokens: 7,
-        }).then((res) => {
-            console.log(res.data.choices[0].text);
-        },(error) => {
-            const message = error.response.data.error.message ?? (error.message ?? "An error occured");
-            console.log("Error",message);
-        });
-    </script>
+    const response = openai.createCompletion({
+        model: "text-davinci-003",
+        prompt: "Say Hello World in javascript",
+        temperature: 0,
+        max_tokens: 7,
+    }).then((res) => {
+        console.log(res.data.choices[0].text);
+    },(error) => {
+        const message = error.response.data.error.message ?? (error.message ?? "An error occured");
+        console.log("Error",message);
+    });
+</script>
 ```
 
 This API is a fork of the official OpenAI Node.js library. Check out the [full API documentation](https://platform.openai.com/docs/api-reference?lang=node.js) for examples of all the available functions.
