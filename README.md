@@ -11,7 +11,7 @@ You can look at [ChatGPT Rewriter extension](https://github.com/sandaru1/chatgpt
 ## Installation
 
 ```bash
-npm install openai
+npm install openai-web
 ```
 
 ## Usage
