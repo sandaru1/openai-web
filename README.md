@@ -16,78 +16,28 @@ npm install openai-web
 
 ## Usage
 
-The library needs to be configured with your account's secret key, which is available on the [website](https://platform.openai.com/account/api-keys). We recommend setting it as an environment variable. Here's an example of initializing the library with the API key loaded from an environment variable and creating a completion:
+The library needs to be configured with an OpenAI account's secret key, which is available on the [website](https://platform.openai.com/account/api-keys). You should request the users to provide the API key.
 
-```javascript
-const { Configuration, OpenAIApi } = require("openai");
+```html
+    <script src="openai.min.js"></script>
+    <script type="module">
+        const configuration = new OpenAI.Configuration({
+            apiKey: $("#key").val(),  // Read the API key from user input
+        });
+        const openai = new OpenAI.OpenAIApi(configuration);
 
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-const openai = new OpenAIApi(configuration);
-
-const completion = await openai.createCompletion({
-  model: "text-davinci-003",
-  prompt: "Hello world",
-});
-console.log(completion.data.choices[0].text);
+        const response = openai.createCompletion({
+            model: "text-davinci-003",
+            prompt: "Say Hello World in javascript",
+            temperature: 0,
+            max_tokens: 7,
+        }).then((res) => {
+            console.log(res.data.choices[0].text);
+        },(error) => {
+            const message = error.response.data.error.message ?? (error.message ?? "An error occured");
+            console.log("Error",message);
+        });
+    </script>
 ```
 
-Check out the [full API documentation](https://platform.openai.com/docs/api-reference?lang=node.js) for examples of all the available functions.
-
-### Request options
-
-All of the available API request functions additionally contain an optional final parameter where you can pass custom [axios request options](https://axios-http.com/docs/req_config), for example:
-
-```javascript
-const completion = await openai.createCompletion(
-  {
-    model: "text-davinci-003",
-    prompt: "Hello world",
-  },
-  {
-    timeout: 1000,
-    headers: {
-      "Example-Header": "example",
-    },
-  }
-);
-```
-
-### Error handling
-
-API requests can potentially return errors due to invalid inputs or other issues. These errors can be handled with a `try...catch` statement, and the error details can be found in either `error.response` or `error.message`:
-
-```javascript
-try {
-  const completion = await openai.createCompletion({
-    model: "text-davinci-003",
-    prompt: "Hello world",
-  });
-  console.log(completion.data.choices[0].text);
-} catch (error) {
-  if (error.response) {
-    console.log(error.response.status);
-    console.log(error.response.data);
-  } else {
-    console.log(error.message);
-  }
-}
-```
-
-### Streaming completions
-
-Streaming completions (`stream=true`) are not natively supported in this package yet, but [a workaround exists](https://github.com/openai/openai-node/issues/18#issuecomment-1369996933) if needed.
-
-## Upgrade guide
-
-All breaking changes for major version releases are listed below.
-
-### 3.0.0
-
-- The function signature of `createCompletion(engineId, params)` changed to `createCompletion(params)`. The value previously passed in as the `engineId` argument should now be passed in as `model` in the params object (e.g. `createCompletion({ model: "text-davinci-003", ... })`)
-- Replace any `createCompletionFromModel(params)` calls with `createCompletion(params)`
-
-## Thanks
-
-Thank you to [ceifa](https://github.com/ceifa) for creating and maintaining the original unofficial `openai` npm package before we released this official library! ceifa's original package has been renamed to [gpt-x](https://www.npmjs.com/package/gpt-x).
+This API is a fork of the official OpenAI Node.js library. Check out the [full API documentation](https://platform.openai.com/docs/api-reference?lang=node.js) for examples of all the available functions.
