@@ -1,3 +1,5 @@
+This codebase is archived. Browser support has been added to  OpenAI v4.0 : https://github.com/openai/openai-node/discussions/182
+
 # OpenAI Javascript Library
 
 The OpenAI javascript library provides a browser compatible javascript library for convenient access to the OpenAI API. This is an unofficial fork of the OpenAI library with modifications for browser and extension compatibility. The library is using "fetch" instead of XHR requests to make API calls, making it compatible with browser extensions.
